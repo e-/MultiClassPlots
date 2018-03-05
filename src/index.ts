@@ -60,9 +60,9 @@ export class TestMain {
     let nClass = 3;
     let width = 256, height = 256;
     let pointSets:any[] = [
-      this.randomPointsWithClass(3000, [2, 3], [[1, 0.3], [0.3, 1]]),
-      this.randomPointsWithClass(3000, [-1, -3.5], [[1, -0.1], [-0.1, 1]]),
-      this.randomPointsWithClass(3000, [1, -2], [[1, 0.6], [0.6, 1]])
+      this.randomPointsWithClass(5000, [-1, -1], [[2, 0], [0, 2]]),
+      this.randomPointsWithClass(5000, [1, -1], [[2, 0], [0, 2]]),
+      this.randomPointsWithClass(5000, [0, 1], [[2, 0], [0, 2]])
     ];
 
     // data buffers contain density information that can be either created by a server or read from files (e.g., json).
@@ -125,7 +125,7 @@ export class TestMain {
     CanvasRenderer.render(outputImage2, 'canvas2');
     CanvasRenderer.render(outputImage3, 'canvas3');
 
-    let bigRectTiles = Tiling.rectangularTiling(width, height, width / 16, height / 16);
+    let bigRectTiles = Tiling.rectangularTiling(width, height, 8, 8);
 
     for(let tile of bigRectTiles) {
         tile.dataValues = tile.aggregate(dataBuffers, TileAggregation.Sum);
@@ -133,8 +133,8 @@ export class TestMain {
 
     let maxCount2 = util.amax(bigRectTiles.map(tile => util.amax(tile.dataValues)));
 
-    let randomMasks = Mask.generateWeavingRandomMasks(dataBuffers.length, 4, width, height);
-    let squareMasks = Mask.generateWeavingSquareMasks(dataBuffers.length, 4, width, height);
+    let randomMasks = Mask.generateWeavingRandomMasks(dataBuffers.length, 8, width, height);
+    let squareMasks = Mask.generateWeavingSquareMasks(dataBuffers.length, 8, width, height);
 
     let derivedBuffers4 = dataBuffers.map((dataBuffer, i) => {
         let derivedBuffer = new DerivedBuffer(dataBuffer);
